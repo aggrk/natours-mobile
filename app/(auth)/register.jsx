@@ -28,6 +28,7 @@ const Register = () => {
         <Input
           placeholder="Full Name"
           fieldName="name"
+          icon="user"
           control={control}
           errors={errors}
         />
@@ -35,6 +36,7 @@ const Register = () => {
           placeholder="Email"
           keyboardType="email-address"
           fieldName="email"
+          icon="email"
           control={control}
           errors={errors}
         />
@@ -42,6 +44,7 @@ const Register = () => {
           placeholder="Password"
           secureTextEntry
           fieldName="password"
+          icon="lock"
           control={control}
           errors={errors}
         />
@@ -49,6 +52,7 @@ const Register = () => {
           placeholder="Confirm Password"
           secureTextEntry
           fieldName="passwordConfirm"
+          icon="lock"
           control={control}
           errors={errors}
         />

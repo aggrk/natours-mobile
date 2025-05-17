@@ -38,7 +38,20 @@ const DashboardLayout = () => {
             }}
           />
           <Tabs.Screen
-            name="bookings"
+            name="(tours)"
+            options={{
+              title: "Tours",
+              tabBarIcon: ({ focused }) => (
+                <Ionicons
+                  name={focused ? "map" : "map-outline"}
+                  size={24}
+                  color="#1B4332"
+                />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="(bookings)"
             options={{
               title: "Bookings",
               tabBarIcon: ({ focused }) => (

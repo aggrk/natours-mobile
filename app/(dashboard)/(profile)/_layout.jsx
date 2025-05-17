@@ -51,6 +51,12 @@ const ProfileLayout = () => {
           headerTintColor: "#1B4332",
         }}
       />
+      <Stack.Screen
+        name="help"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };

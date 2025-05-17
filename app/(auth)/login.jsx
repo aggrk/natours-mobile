@@ -16,8 +16,8 @@ const Login = () => {
   const router = useRouter();
 
   const onSubmit = async (data) => {
-    setError(null);
     try {
+      setError(null);
       await login(data);
       router.replace("/(profile)");
     } catch (err) {
@@ -33,6 +33,7 @@ const Login = () => {
           placeholder="Username"
           keyboardType="email-address"
           fieldName="email"
+          icon="email"
           control={control}
           errors={errors}
         />
@@ -40,6 +41,7 @@ const Login = () => {
           placeholder="Password"
           secureTextEntry
           fieldName="password"
+          icon="lock"
           control={control}
           errors={errors}
         />

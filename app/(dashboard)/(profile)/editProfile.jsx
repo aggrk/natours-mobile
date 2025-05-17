@@ -33,7 +33,7 @@ const EditProfileScreen = () => {
   } = useForm();
   const router = useRouter();
 
-  const { currentUser } = useCurrentUser();
+  const { currentUser, changeUser } = useCurrentUser();
   const name = currentUser?.data?.data?.name || "Guest";
   const email = currentUser?.data?.data?.email || "No email provided";
   const photo = currentUser?.data?.data?.photo || "default.jpg";
@@ -72,12 +72,12 @@ const EditProfileScreen = () => {
 
     try {
       setLoading(true);
-      const res = await axios.patch(`${URL}/users/updateMe`, formData, {
+      await axios.patch(`${URL}/users/updateMe`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res.data);
+      changeUser();
     } catch (err) {
       console.log(err?.response?.data?.message);
     } finally {
@@ -186,7 +186,7 @@ const EditProfileScreen = () => {
             >
               <Text style={styles.saveButtonText}>
                 {loading ? (
-                  <ActivityIndicator size="large" color="#1B4332" />
+                  <ActivityIndicator size="large" color="#FFFFFF" />
                 ) : (
                   "Save Changes"
                 )}

@@ -13,24 +13,20 @@ import {
   FontAwesome,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import useCurrentUser from "../../../hooks/useCurrentUser";
-import useUser from "../../../hooks/useUser";
 import { StatusBar } from "expo-status-bar";
 
 const IMG = "https://natours-api-chd9.onrender.com/img/users";
 
 const UserProfileScreen = () => {
   const { loading, currentUser } = useCurrentUser();
-  const { logout } = useUser();
+
+  const router = useRouter();
 
   const name = currentUser?.data?.data?.name || "Guest";
   const email = currentUser?.data?.data?.email || "No email provided";
   const photo = currentUser?.data?.data?.photo || "default.jpg";
-
-  const handleLogout = () => {
-    logout();
-  };
 
   if (loading) {
     return (
@@ -56,9 +52,6 @@ const UserProfileScreen = () => {
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
           <Image source={{ uri: `${IMG}/${photo}` }} style={styles.avatar} />
-          <TouchableOpacity style={styles.editPhotoButton}>
-            <Ionicons name="camera" size={20} color="#1B4332" />
-          </TouchableOpacity>
         </View>
 
         <Text style={styles.userName}>{name}</Text>
@@ -85,7 +78,7 @@ const UserProfileScreen = () => {
 
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Member since</Text>
-            <Text style={styles.infoValue}>January 2022</Text>
+            <Text style={styles.infoValue}>January 2025</Text>
           </View>
 
           <View style={styles.infoItem}>
@@ -152,7 +145,10 @@ const UserProfileScreen = () => {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.viewAllButton}>
+          <TouchableOpacity
+            style={styles.viewAllButton}
+            onPress={() => router.push("/(bookings)")}
+          >
             <Text style={styles.viewAllButtonText}>View All Bookings</Text>
             <MaterialIcons name="chevron-right" size={20} color="#40916C" />
           </TouchableOpacity>
@@ -170,14 +166,20 @@ const UserProfileScreen = () => {
           </View>
 
           <View style={styles.actionsGrid}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push("/favorites")}
+            >
               <View style={styles.actionIcon}>
                 <FontAwesome name="heart" size={18} color="#D8F3DC" />
               </View>
               <Text style={styles.actionText}>Wishlist</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push("/(bookings)")}
+            >
               <View style={styles.actionIcon}>
                 <MaterialCommunityIcons
                   name="wallet-travel"
@@ -197,7 +199,10 @@ const UserProfileScreen = () => {
               </TouchableOpacity>
             </Link>
 
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push("/help")}
+            >
               <View style={styles.actionIcon}>
                 <MaterialCommunityIcons
                   name="help-circle"

@@ -17,12 +17,12 @@ import {
 } from "@expo/vector-icons";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import useUser from "../../../hooks/useUser";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 const IMG = "https://natours-api-chd9.onrender.com/img/users";
 
-const SettingsScreen = ({ navigation }) => {
+const SettingsScreen = () => {
   // Toggle states
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
@@ -30,6 +30,7 @@ const SettingsScreen = ({ navigation }) => {
 
   const { currentUser } = useCurrentUser();
   const { logout } = useUser();
+  const router = useRouter();
 
   const name = currentUser?.data?.data?.name || "Guest";
   const email = currentUser?.data?.data?.email || "No email provided";
@@ -42,7 +43,7 @@ const SettingsScreen = ({ navigation }) => {
       {/* User Profile Card */}
       <TouchableOpacity
         style={styles.profileCard}
-        onPress={() => navigation.navigate("Profile")}
+        onPress={() => router.replace("/(profile)")}
       >
         <Image source={{ uri: `${IMG}/${photo}` }} style={styles.avatar} />
         <View style={styles.profileText}>

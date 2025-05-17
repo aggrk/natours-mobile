@@ -8,12 +8,21 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Controller, useForm } from "react-hook-form";
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import axios from "axios";
+import useUser from "../../../hooks/useUser";
+import Error from "../../../components/Error";
+
+const URL = "https://natours-api-chd9.onrender.com/api/v1";
 
 export default function ChangePassword() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const {
     control,
     handleSubmit,
@@ -27,14 +36,27 @@ export default function ChangePassword() {
       passwordConfirm: "",
     },
   });
+  const { logout } = useUser();
 
   const password = watch("password");
 
-  const handleSave = (data) => {
-    console.log("Password change data:", data);
-    Alert.alert("Success!", "Your password has been updated securely.", [
-      { text: "OK" },
-    ]);
+  const handleSave = async (data) => {
+    const updates = {
+      passwordCurrent: data.passwordCurrent,
+      password: data.password,
+      passwordConfirm: data.passwordConfirm,
+    };
+    try {
+      setError(null);
+      setLoading(true);
+      await axios.patch(`${URL}/users/updateMyPassword`, updates);
+      logout();
+    } catch (err) {
+      console.log(err?.response?.data?.message);
+      setError(err?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Password strength indicators
@@ -59,6 +81,7 @@ export default function ChangePassword() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.formContainer}>
+          {error && <Error message={error} />}
           {/* Current Password */}
           <View style={styles.inputGroup}>
             <View
@@ -273,7 +296,13 @@ export default function ChangePassword() {
               onPress={handleSubmit(handleSave)}
               disabled={!isValid}
             >
-              <Text style={styles.saveButtonText}>Update Password</Text>
+              <Text style={styles.saveButtonText}>
+                {loading ? (
+                  <ActivityIndicator size="large" color="#FFFFFF" />
+                ) : (
+                  "Update Password"
+                )}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
